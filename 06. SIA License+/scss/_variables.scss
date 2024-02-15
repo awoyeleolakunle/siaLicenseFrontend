@@ -1,0 +1,34 @@
+
+//--FONTS
+$font-body: 'Raleway', sans-serif;
+$font-headings: 'Raleway', sans-serif;
+
+//BODY
+$color-body: #44484a;
+$bgcolor-body: #ffffff;
+
+//CUSTOM COLORS
+
+$color-blue: #1b6cfc;
+$color-lightblue: #f4f9ff;
+$color-lighterblue: #f1f8fa;
+$color-darkblue: #121330;
+$color-green: #01ddac;
+$color-gray: #e2e5e6;
+$color-darkgray: #5c5c5c;
+$color-lightgray: #f9f9f9;
+$color-lightyellow: #fffbe9;
+$color-lightpink: #fff7f7;
+$color-lightgreen: #ebfff8;
+$color-purple: #5d54c1;
+
+//CUSTOM GRADIENTS BACKGROUNDS
+.gradient-blue{
+	background-color: #0035ad !important;
+	background: linear-gradient(50deg, #0035ad 0%, #1b6cfc 100%) !important;
+}
+
+
+
+
+

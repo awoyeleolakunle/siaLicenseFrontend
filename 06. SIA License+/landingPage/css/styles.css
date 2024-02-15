@@ -1,0 +1,191 @@
+/*     General Styles     */
+
+span {
+    color: #628DCB;
+    font-weight: 700;
+}
+
+.logo_img {
+    max-width: 200px;
+    height: auto;
+}
+.navbar {
+    top: 30px;
+    color: #628DCB;
+}
+.nav-link {
+	font-weight: 500;
+	font-size: 1.2rem;
+    color: black;
+	line-height: 0.875rem;
+}
+
+.nav-link:hover {
+	font-weight: 500;
+	font-size: 1.2rem;
+    color: #628DCB;
+	line-height: 0.875rem;
+}
+
+
+.btn_css_dark {
+    
+    margin-right: 20px;
+    color: white;
+    font-weight: 500;
+	font-size: 100%;
+	box-shadow: none;
+	border-radius: 5px;
+	padding: 8px 30px;
+    
+}
+
+.btn_css_dark:hover {
+	font-weight: 500;
+	font-size: 1.2rem;
+	color: black;
+	border-radius: 5px;
+	border-width: 2px;
+	padding: 8px 30px;
+	background-image: none;
+	background: transparent;
+}
+
+.btn_css {
+    font-weight: 500;
+	font-size: 1.2rem;
+	color: black;
+	border-radius: 5px;
+	border-width: 2px;
+	padding: 8px 30px;
+	border-image-slice: 1;
+	background-image: none;
+	background: transparent;
+
+    
+}
+
+.btn_css:hover {
+	color: white;
+    font-weight: 500;
+	font-size: 100%;
+	box-shadow: none;
+	border-radius: 5px;
+	padding: 8px 30px;
+}
+
+.card_nav {
+    margin-top: 40px;
+    max-width: auto;
+    height: 60px;
+    background-color: #628DCB;
+    text-align: center;
+}
+
+.card_foot {
+    max-width: auto;
+    height: 85px;
+    background-color: #628DCB;
+    text-align: center;
+}
+
+.text {
+    padding-top:15px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: white;
+}
+
+
+.text2 {
+    padding-top:10px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: white;
+}
+
+
+.home_header {
+    margin-bottom: 50px;
+    font-size: 3rem;
+}
+
+.home_img {
+    max-width: 704px;
+    max-height: auto;
+    padding: 50px;
+}
+
+.home_text {
+    font-size: 1.5rem;
+}
+
+
+
+/* --------------- 1000px Screens --------------- */
+
+@media (max-width: 1000px) {
+
+    .text {
+        padding-top:15px;
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: white;
+    }
+
+    .home_img {
+        max-width: 604px;
+        max-height: auto;
+        padding: 50px;
+    }
+    .home_header {
+        margin-bottom: 25px;
+        font-size: 2.5rem;
+    }
+}
+  
+  /* --------------- 768px Screens --------------- */
+  
+  @media (max-width: 768px) {
+  
+    .text {
+        padding-top:15px;
+        font-size: 1rem;
+        font-weight: 450;
+        color: white;
+    }
+
+    .home_img {
+        max-width: 550px;
+        max-height: auto;
+        padding: 50px;
+    }
+    .home_header {
+        margin-bottom: 25px;
+        font-size: 2.1rem;
+    }
+}
+  
+  /* --------------- 500px Screens --------------- */
+  
+  @media (max-width: 500px) {
+  
+    .text {
+        padding-top:15px;
+        font-size: .9rem;
+        font-weight: 400;
+        color: white;
+    }
+    .home_img {
+        max-width: 510px;
+        max-height: auto;
+        padding: 50px;
+    }
+
+    
+.home_header {
+    margin-bottom: 25px;
+    font-size: 2.1rem;
+}
+
+  }
