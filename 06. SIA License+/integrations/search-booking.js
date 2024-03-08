@@ -57,7 +57,7 @@ const fetchAllCenterAvailableTrainingSessionUnderATrainingType = (
 };
 
 const displayTrainingSessions = (listOfTraining) => {
-  console.log(listOfTraining);
+  console.log("I am the list of ", listOfTraining);
 
   const searchResult = document.getElementById("searchResultId");
 
