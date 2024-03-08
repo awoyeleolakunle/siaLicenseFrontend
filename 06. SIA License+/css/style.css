@@ -266,30 +266,10 @@ Template:	GoMobile
 /*===============================================*/
 /* 2. GENERAL		 						 */
 /*===============================================*/
-html, body {
-  position: relative;
-  width: 100%;
-  height: 115%;
-  /* overflow-x: hidden; */
-  overflow-y: auto;
-
-  font-size: 62.5%;
-  /*  (10 px in REM size) */ }
 
 body {
   font-family: "Raleway", sans-serif;
-  background-color: #ffffff;
-  color: #44484a;
-  margin: 0;
-  padding: 0;
-  font-size: 1.5rem;
-  line-height: 1.2;
-  -webkit-text-size-adjust: 100%;
-  overflow: hidden;
-  overflow-y: auto;
-
-  font-weight: 400; }
- 
+}
    /* .login-form{
   
     padding-top: -5%;
@@ -1247,7 +1227,7 @@ body.panel-closing .page, body.panel-closing .bottom-toolbar {
         .nav-food2 ul li:nth-child(6) a {
           color: #F7F7F7 }
       .nav-food2 ul li:nth-child(7) {
-        background-color: ##0079bc; }
+        background-color: #0079bc; }
         .nav-food2 ul li:nth-child(7) a {
           color: #3e3c3c; }
       .nav-food2 ul li:nth-child(8) {
@@ -2672,7 +2652,7 @@ a.plyr__controls__item.plyr__control:hover,
     padding: 15px 10px 15px 20px;
     border-radius: 10px;
     font-weight: 500;
-    font-size: 1.4rem; }
+    font-size: 0.9rem; }
     .form__input::placeholder {
       /* Chrome, Firefox, Opera, Safari 10.1+ */
       color: #4c4c4c;
@@ -2698,7 +2678,7 @@ a.plyr__controls__item.plyr__control:hover,
     padding: 18px 15px 18px 20px;
     border-radius: 10px;
     font-weight: 500;
-    font-size: 1.4rem; }
+    font-size: 0.9rem; }
     .form__textarea::placeholder {
       /* Chrome, Firefox, Opera, Safari 10.1+ */
       color: #4c4c4c;
