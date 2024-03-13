@@ -12,6 +12,8 @@ if (encodedParam) {
 }
 
 const searchBooking = document.getElementById("searchBookingId");
+const courseName = document.getElementById("courseNameId");
+courseName.innerHTML = course;
 
 const allBookingLine = document.querySelectorAll(
   ".caption__more.button.button--small.button--blue"

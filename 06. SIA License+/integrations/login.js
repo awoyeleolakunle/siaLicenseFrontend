@@ -20,22 +20,22 @@ const sendLoginRequestToBackend = () => {
       } else if (response.status === 400) {
         return response.json();
       } else {
-        throw new Error("Unsuccessful");
+        throw new Error("Network Failed");
       }
     })
     .then((data) => {
-      if (data && data.statusCode == 400) {
+      console.log("I'm the data : ", data);
+      if (data && data.status == 400) {
         throw new Error(data.data);
       } else if (data && data.data) {
         jwtToken = data.data;
         console.log("i'm the dat in data " + jwtToken);
         userRole(jwtToken, loginRequest);
-      } else {
-        throw new Error("Unsuccessful");
       }
     })
 
     .catch((error) => {
+      console.log("I'm the error  ", error);
       if (error.message) {
         {
           toast(error.message, 4000);
