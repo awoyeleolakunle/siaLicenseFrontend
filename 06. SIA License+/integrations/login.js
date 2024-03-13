@@ -1,156 +1,114 @@
-
-
-
-
 let jwtToken;
 
-const sendLoginRequestToBackend = ()=>{
+const sendLoginRequestToBackend = () => {
+  const loginRequest = {
+    emailAddress: document.getElementById("emailAddressId").value,
+    password: document.getElementById("passwordId").value,
+  };
 
- 
-    const loginRequest ={
-
-        "emailAddress" : document.getElementById('emailAddressId').value,
-        "password":  document.getElementById('passwordId').value,
-
-    }
-
-
-
-fetch(`${siaLicenseBaseUrl}/api/v1/sialicence+/login`,{
-    method : 'POST',
-    headers : {
-        'Content-Type': 'application/json'
+  fetch(`${siaLicenseBaseUrl}/api/v1/sialicence+/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(loginRequest)
-} )
-.then(response=>{
-    if(response.ok){
+    body: JSON.stringify(loginRequest),
+  })
+    .then((response) => {
+      if (response.ok) {
         console.log("I'm ok");
-        return response.json()
-    }
-    else if(response.status===400){
-        return response.json()
-    }
-    else{
-        throw new Error('Unsuccessful')
-    }
-})
-.then(data=>{
-    if(data && data.statusCode==400){
-        throw new Error(data.data)
-    }
-    else if(data && data.data){
-         jwtToken = data.data;
-        console.log("i'm the dat in data "+ jwtToken);
-        userRole(jwtToken, loginRequest)
-    }
-    else{
-        throw new Error('Unsuccessful')
-    }
-})
+        return response.json();
+      } else if (response.status === 400) {
+        return response.json();
+      } else {
+        throw new Error("Network Failed");
+      }
+    })
+    .then((data) => {
+      console.log("I'm the data : ", data);
+      if (data && data.status == 400) {
+        throw new Error(data.data);
+      } else if (data && data.data) {
+        jwtToken = data.data;
+        console.log("i'm the dat in data " + jwtToken);
+        userRole(jwtToken, loginRequest);
+      }
+    })
 
-.catch(error=>{
-    if(error.message){
-        {toast(error.message, 4000)}
-    }
-    else{
-        {toast('Network Failed')}
-    }
-})
-
-}
-
-
-const userRole = (jwtToken, loginRequest)=>{
-    
-
-
-    // function setCookie(name, value) {
-    //     var expires = "";
-    //     // if (days) {
-    //     //     var date = new Date();
-    //     //     date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-    //     //     expires = "; expires=" + date.toUTCString();
-    //     // }
-    //     document.cookie = name + "=" + encodeURIComponent(value) +"; path=/; secure; HttpOnly";
-
-    //     console.log(document.cookie);
-    
-    //     console.log('Cookie set:', value);
-    // }
-
-
-    function setCookie(name, value, days) {
-        var expires = "";
-        if (days) {
-            var date = new Date();
-            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-            expires = "; expires=" + date.toUTCString();
+    .catch((error) => {
+      console.log("I'm the error  ", error);
+      if (error.message) {
+        {
+          toast(error.message, 4000);
         }
-        document.cookie = name + "=" + value + expires + "; path=/; secure; HttpOnly";
-        
-        console.log('Cookie set:', value);
+      } else {
+        {
+          toast("Network Failed");
+        }
+      }
+    });
+};
 
-        console.log(document.cookie);
+const userRole = (jwtToken, loginRequest) => {
+  function setCookie(name, value, days) {
+    var expires = "";
+    if (days) {
+      var date = new Date();
+      date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+      expires = "; expires=" + date.toUTCString();
     }
-    
-    
-    const [, payloadBase64] = jwtToken.split('.');
-    const payloadJSON = atob(payloadBase64);
-    const payload = JSON.parse(payloadJSON);
+    document.cookie =
+      name + "=" + value + expires + "; path=/; secure; HttpOnly";
 
-    
-    const userRoles = payload.roles;
-    
-    
-    if (userRoles[0] === "CENTER") {
+    console.log("Cookie set:", value);
 
-        //setCookie('siaLicence+Token', jwtToken)
-        sessionStorage.setItem('siaLicense+Token', JSON.stringify(jwtToken));
-        sessionStorage.setItem('centerEmailAddress', loginRequest.emailAddress)
-        
-        window.location.href = 'index.html'
-       // sendOtPForVerification(fullName);
-  
-    }  
-    else{
-        if(userRoles[0]==='APPLICANT'){
-        
-          console.log("I'm  the applicant ");
+    console.log(document.cookie);
+  }
 
-           // setCookie('siaLicence+Token', jwtToken)
+  const [, payloadBase64] = jwtToken.split(".");
+  const payloadJSON = atob(payloadBase64);
+  const payload = JSON.parse(payloadJSON);
 
-            sessionStorage.setItem('siaLicense+Token', JSON.stringify(jwtToken));
-            sessionStorage.setItem('applicantEmailAddress', loginRequest.emailAddress)
+  const userRoles = payload.roles;
 
-            const userType  = "applicant";
+  if (userRoles[0] === "CENTER") {
+    //setCookie('siaLicence+Token', jwtToken)
+    sessionStorage.setItem("siaLicense+Token", JSON.stringify(jwtToken));
+    sessionStorage.setItem("centerEmailAddress", loginRequest.emailAddress);
 
-            sessionStorage.setItem('userType', userType)
+    window.location.href = "index.html";
+    // sendOtPForVerification(fullName);
+  } else {
+    if (userRoles[0] === "APPLICANT") {
+      console.log("I'm  the applicant ");
 
+      // setCookie('siaLicence+Token', jwtToken)
 
-            window.location.href = 'index.html';
-        //    ?applicant=${encodeURIComponent(userType)}`;
-        }
-        else{
+      sessionStorage.setItem("siaLicense+Token", JSON.stringify(jwtToken));
+      sessionStorage.setItem(
+        "applicantEmailAddress",
+        loginRequest.emailAddress
+      );
 
-           // setCookie('siaLicence+Token', jwtToken)
-            sessionStorage.setItem('siaLicense+Token', JSON.stringify(jwtToken));
-            sessionStorage.setItem('adminEmailAddress', loginRequest.emailAddress)
-            window.location.href = 'blog.html';
-        }
+      const userType = "applicant";
+
+      sessionStorage.setItem("userType", userType);
+
+      window.location.href = "/06. SIA License+/index-landing.html";
+      //    ?applicant=${encodeURIComponent(userType)}`;
+    } else {
+      // setCookie('siaLicence+Token', jwtToken)
+      sessionStorage.setItem("siaLicense+Token", JSON.stringify(jwtToken));
+      sessionStorage.setItem("adminEmailAddress", loginRequest.emailAddress);
+      window.location.href = "blog.html";
     }
   }
-  
-  const signInBtn = document.getElementById('submitId')
+};
 
-  signInBtn.addEventListener('click',(event)=>{ 
-    event.preventDefault(); 
-    
-    console.log("Yes I've been clicked");
-   sendLoginRequestToBackend();
-  
-  })
-  
-  
+const signInBtn = document.getElementById("submitId");
 
-  
+signInBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+
+  console.log("Yes I've been clicked");
+  sendLoginRequestToBackend();
+});
