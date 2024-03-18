@@ -1,5 +1,17 @@
 const sendApplicantRegistrationRequest = () => {
-  console.log("I entered here yess");
+  const emailAddress = document.getElementById("emailAddressId").value;
+  const password = document.getElementById("passwordId").value;
+
+  if (!emailAddress.trim() || !password.trim()) {
+    toast("Email Address and Password are required", 4000);
+    return;
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(emailAddress)) {
+    toast("Invalid Email Address", 4000);
+    return;
+  }
 
   const applicantRequest = {
     emailAddress: document.getElementById("emailAddressId").value,
@@ -30,18 +42,20 @@ const sendApplicantRegistrationRequest = () => {
       }
     })
     .then((data) => {
-      if (data && data.statusCode == 400) {
+      if (data && data.status == 400) {
         throw new Error(data.data);
       } else if (data && data.data) {
         const jwtToken = data.data;
         userRole(jwtToken, applicantRequest);
       } else {
-        throw new Error("Unsuccessful");
+        throw new Error("Network Failed");
       }
     })
 
     .catch((error) => {
-      if (error.message) {
+      if (error instanceof TypeError) {
+        toast("Connection failed", 4000);
+      } else if (error.message) {
         {
           toast(error.message, 4000);
         }
@@ -63,35 +77,20 @@ const userRole = (jwtToken, applicantRequest) => {
 
   console.log(userRoles[0]);
 
-  if (userRoles[0] === "CENTER") {
-    console.log("I'm in here ", userRoles[0]);
-
-    sessionStorage.setItem("siaLicensc+Token", JSON.stringify(jwtToken));
+  if (userRoles[0] === "APPLICANT") {
+    sessionStorage.setItem("siaLicence+Token", JSON.stringify(jwtToken));
     sessionStorage.setItem(
-      "centerEmailAddress",
-      applicantRequestt.emailAddress
+      "applicantEmailAddress",
+      JSON.stringify(applicantRequest.emailAddress)
     );
 
-    window.location.href = "index.html";
-    // sendOtPForVerification(fullName);
-  } else {
-    if (userRole[0] === "APPLICANT") {
-      // sessionStorage.setItem('siaLicence+Token', JSON.stringify(jwtToken));
-      sessionStorage.setItem(
-        "applicantEmailAddress",
-        applicantRequest.emailAddress
-      );
-
-      window.location.href = "index.html";
-    }
+    window.location.href = "/06. SIA License+/index-landing.html";
   }
 };
 
 const applicantSignUpBtn = document.getElementById("submitId");
-console.log("I'm the submit btn :" + applicantSignUpBtn);
 applicantSignUpBtn.addEventListener("click", (event) => {
   event.preventDefault();
 
-  // console.log("Yes I've been clicked");
   sendApplicantRegistrationRequest();
 });

@@ -51,6 +51,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="css/style.css">
 
+    <link
+    rel="stylesheet"
+    type="text/css"
+    href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+  />
 
 </head>
 
@@ -195,49 +200,42 @@
             <form id="mock-test-form">
                 <div class="mb-3">
                     <label for="Course" class="form-label">Course:</label>
-                    <select class="form-select" id="Course" name="Course" required>
+                    <select class="form-select" id="examTypeId" name="Course" required>
                         <option value="">Select Course</option>
-                        <option value="Course1">Door Supervision</option>
-                        <option value="Course2">CCTV Operation</option>
-                        <option value="Course3">Security Guarding</option>
-                        <option value="Course4">Close Operations</option>
-                        <option value="Course5">Cash and Valuable in Transit</option>
-                        <option value="Course6">Vehicle Immobilising</option>
+                        <option value=" WORKING_IN_THE_PRIVATE_SECURITY_INDUSTRY">WORKING IN THE PRIVATE SECURITY INDUSTRY</option>
+                        <option value="DOOR_SUPERVISION_IN_THE_PRIVATE_SECURITY_INDUSTRY">DOOR SUPERVISION IN THE PRIVATE SECURITY INDUSTRY</option>
+                        <option value="CONFLICT_MANAGEMENT_IN_THE_PRIVATE_SECURITY_INDUSTRY">CONFLICT MANAGEMENT IN THE PRIVATE SECURITY INDUSTRY</option>
+                        <option value=" PHYSICAL_INTERVENTION_IN_THE_PRIVATE_SECURITY_INDUSTRY">PHYSICAL INTERVENTION IN THE PRIVATE SECURITY INDUSTRY</option>
                     </select>
                 </div>
                 <div class="mb-3">
                     <label for="question1" class="form-label">Question:</label>
-                    <input type="text" class="form-control" id="question1" name="question1" required>
+                    <input  type="text" class="form-control" id="questionId" name="question1" required>
                 </div>
                 <div class="mb-3">
                     <label for="option1_1" class="form-label">Option 1:</label>
-                    <input type="text" class="form-control" id="option1_1" name="option1_1" required>
+                    <input type="text" class="form-control" id="option1Id" name="option1_1" required>
                 </div>
                 <div class="mb-3">
                     <label for="option1_2" class="form-label">Option 2:</label>
-                    <input type="text" class="form-control" id="option1_2" name="option1_2" required>
+                    <input type="text" class="form-control" id="option2Id" name="option1_2" required>
                 </div>
                 <div class="mb-3">
                     <label for="option1_3" class="form-label">Option 3:</label>
-                    <input type="text" class="form-control" id="option1_3" name="option1_3" required>
+                    <input type="text" class="form-control" id="option3Id" name="option1_3" required>
                 </div>
                 <div class="mb-3">
                     <label for="option1_4" class="form-label">Option 4:</label>
-                    <input type="text" class="form-control" id="option1_4" name="option1_4" required>
+                    <input type="text" class="form-control" id="option4Id" name="option1_4" required>
                 </div>
                 <div class="mb-3">
                     <label for="correct_answer1" class="form-label">Correct Answer:</label>
-                    <select class="form-select" id="correct_answer1" name="correct_answer1" required>
-                        <option value="1">Option 1</option>
-                        <option value="2">Option 2</option>
-                        <option value="3">Option 3</option>
-                        <option value="4">Option 4</option>
-                    </select>
+                    <input type="text" class="form-control" id="correctOptionId" name="option1_4" required>
                 </div>
                 
                 <!-- Add more question fields as needed -->
     
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" id="submitBtnId" class="btn btn-primary">Submit</button>
             </form>
     
             <div id="mock-test-questions" class="mt-5">
@@ -254,45 +252,10 @@
 <script src="../vendor/jquery/jquery.validate.min.js" ></script>
 <script src="../vendor/swiper/swiper.min.js"></script>
 <script src="js/jquery.custom.js"></script>
-<sCript src="../06. SIA License+/config/appConfig.js"></sCript>
-<script src="integrations/login.js"></script>
+<script src="/06. SIA License+/config/appConfig.js"></script>
+<script src="/06. SIA License+/admin/admin/html/integration/set-mock-test.js"></script>
+
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-
-
-<script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const form = document.getElementById("mock-test-form");
-            const questionsSection = document.getElementById("mock-test-questions");
-
-            form.addEventListener("submit", function(event) {
-                event.preventDefault();
-
-                // Create a new question element
-                const questionElement = document.createElement("div");
-                questionElement.className = "card mb-3";
-
-                const questionBody = `
-                    <div class="card-body">
-                        <h5 class="card-title">${form.elements["question1"].value}</h5>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Course: ${form.elements["Course"].options[form.elements["Course"].selectedIndex].text}</li>
-                            <li class="list-group-item">${form.elements["option1_1"].value}</li>
-                            <li class="list-group-item">${form.elements["option1_2"].value}</li>
-                            <li class="list-group-item">${form.elements["option1_3"].value}</li>
-                            <li class="list-group-item">${form.elements["option1_4"].value}</li>
-                            <li class="list-group-item">Correct Answer: ${form.elements["correct_answer1"].options[form.elements["correct_answer1"].selectedIndex].text}</li>
-                        </ul>
-                    </div>
-                `;
-
-                questionElement.innerHTML = questionBody;
-                questionsSection.appendChild(questionElement);
-
-                // Reset the form
-                form.reset();
-            });
-        });
-</script>
 
 </body>
 
