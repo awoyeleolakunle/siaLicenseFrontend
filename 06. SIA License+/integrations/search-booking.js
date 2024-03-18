@@ -6,21 +6,23 @@ document.addEventListener("DOMContentLoaded", () => {
   trainingType = querryParam.get("course");
 
   if (trainingType) {
-    console.log(
-      "i got in here and the training type is present : ",
-      trainingType
-    );
+    const token = JSON.parse(
+      sessionStorage.getItem("siaLicense+Token")
+    )?.trim();
+    if (!token) {
+      window.location.href = "/06. SIA License+/login.html";
+    }
     fetchAllCenterAvailableTrainingSessionUnderATrainingType(
-      trainingType.trim()
+      trainingType.trim(),
+      token
     );
   }
 });
 
 const fetchAllCenterAvailableTrainingSessionUnderATrainingType = (
-  trainingType
+  trainingType,
+  token
 ) => {
-  console.log("I'm the training Type :", trainingType);
-
   fetch(
     `${siaLicenseBaseUrl}/api/v1/sialicence+/trainingSession/allAvailableTrainingSessionUnderTrainingType?trainingType=${encodeURIComponent(
       trainingType
@@ -29,6 +31,7 @@ const fetchAllCenterAvailableTrainingSessionUnderATrainingType = (
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: token,
       },
     }
   )
@@ -44,7 +47,9 @@ const fetchAllCenterAvailableTrainingSessionUnderATrainingType = (
       displayTrainingSessions(data);
     })
     .catch((error) => {
-      if (error.message) {
+      if (error instanceof TypeError) {
+        toast("Connection failed", 4000);
+      } else if (error.message) {
         {
           toast(error.message, 4000);
         }
@@ -57,8 +62,6 @@ const fetchAllCenterAvailableTrainingSessionUnderATrainingType = (
 };
 
 const displayTrainingSessions = (listOfTraining) => {
-  console.log("I am the list of ", listOfTraining);
-
   const searchResult = document.getElementById("searchResultId");
 
   searchResult.textContent = `Search result (${listOfTraining.length})`;
@@ -78,7 +81,6 @@ const displayTrainingSessions = (listOfTraining) => {
         splitedRecievedStartDate[2]
       );
 
-      console.log("I'm the value here : ", objectValueOfStartDate);
       trainingStartDate = objectValueOfStartDate.toString().split(/\s+/);
     }
 
@@ -105,9 +107,10 @@ const displayTrainingSessions = (listOfTraining) => {
                 <br>${trainingSession.centerCity} <br>United Kingdom
 		 </div>
 
-		</p> <p><div class="post-details__date">Level 2 ${
-      trainingSession.trainingType
-    } Training</div>  
+		</p> <p><div class="post-details__date"> ${trainingSession.trainingType.replace(
+      /_/g,
+      " "
+    )} Training</div>  
               <div class="cards cards--11">
 			  <div class="card">
 				  <div class="card__details">

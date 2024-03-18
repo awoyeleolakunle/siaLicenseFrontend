@@ -8,7 +8,6 @@ startButtons.forEach((button) => {
       .querySelector(".post__title a")
       .innerHTML.toUpperCase();
     postTitle = postTitle.replace(/ /g, "_");
-    alert(postTitle);
     sessionStorage.setItem("selectedExamType", JSON.stringify(postTitle));
     window.location.href = "mock-instructions.html";
   });

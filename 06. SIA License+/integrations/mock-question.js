@@ -1,20 +1,84 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const listOfQuestionsDetails = JSON.parse(
-    sessionStorage.getItem("listOfQuestions")
-  );
+  let listOfQuestionsDetails = {
+    listOfQuestions: [],
+    examId: 0,
+  };
 
-  console.log(listOfQuestionsDetails);
-  populateQuestionsAndOptions(
-    listOfQuestionsDetails,
-    listOfQuestionsDetails.examId
-  );
+  const token = JSON.parse(sessionStorage.getItem("siaLicense+Token"))?.trim();
+  if (!token) {
+    window.location.href = "/06. SIA License+/login.html";
+  }
+
+  createMockTest(listOfQuestionsDetails, token);
+  document.getElementById("courseTitleId").innerHTML = JSON.parse(
+    sessionStorage.getItem("selectedExamType")
+  )
+    ?.trim()
+    .replace(/_/g, " ");
 });
 
-const populateQuestionsAndOptions = (listOfQuestions, examId) => {
+const createMockTest = (listOfQuestionsDetails, token) => {
+  let courseTitle = JSON.parse(
+    sessionStorage.getItem("selectedExamType")
+  )?.trim();
+  if (
+    courseTitle === "WORKING_IN_THE_PRIVATE_SECURITY_INDUSTRY_(COMMON_UNIT)"
+  ) {
+    courseTitle = "WORKING_IN_THE_PRIVATE_SECURITY_INDUSTRY";
+  }
+
+  const examCreationRequest = {
+    applicantEmailAddress: JSON.parse(
+      sessionStorage.getItem("applicantEmailAddress")
+    )?.trim(),
+    examType: courseTitle.trim(),
+  };
+
+  fetch(`${siaLicenseBaseUrl}/api/v1/sialicence+/exam/examCreation`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token,
+    },
+    body: JSON.stringify(examCreationRequest),
+  })
+    .then((response) => {
+      if (response.status === 201) {
+        return response.json();
+      } else {
+        throw new Error("Failed to create exam");
+      }
+    })
+    .then((data) => {
+      listOfQuestionsDetails.listOfQuestions = data.data.listOfShuffledQuestion;
+      listOfQuestionsDetails.examId = data.data.examId;
+
+      populateQuestionsAndOptions(
+        listOfQuestionsDetails.listOfQuestions,
+        listOfQuestionsDetails.examId,
+        token
+      );
+    })
+    .catch((error) => {
+      if (error instanceof TypeError) {
+        toast("Connection failed", 4000);
+      } else if (error.message) {
+        {
+          toast(error.message, 4000);
+        }
+      } else {
+        {
+          toast("Network Failed");
+        }
+      }
+    });
+};
+
+const populateQuestionsAndOptions = (listOfQuestions, examId, token) => {
   const questionsContainer = document.getElementById("questionContainerId");
   questionsContainer.innerHTML = "";
 
-  listOfQuestions.listOfQuestions.forEach((questionObj, questionIndex) => {
+  listOfQuestions?.forEach((questionObj, questionIndex) => {
     const questionDiv = document.createElement("div");
     questionDiv.classList.add("form");
 
@@ -36,7 +100,7 @@ const populateQuestionsAndOptions = (listOfQuestions, examId) => {
       input.value = optionIndex + 1;
 
       input.addEventListener("click", () => {
-        sendOptionPickedToTheBackend(option, questionObj.id, examId);
+        sendOptionPickedToTheBackend(option, questionObj.id, examId, token);
       });
 
       const label = document.createElement("label");
@@ -52,35 +116,47 @@ const populateQuestionsAndOptions = (listOfQuestions, examId) => {
   });
 };
 
-const sendOptionPickedToTheBackend = (optionPicked, questionId, examId) => {
-  console.log("Im the question ID : ", questionId);
-  console.log("I'm the option picked : ", optionPicked);
-  console.log("I'm the exam Id : ", examId);
-
+const sendOptionPickedToTheBackend = (
+  optionPicked,
+  questionId,
+  examId,
+  token
+) => {
   const answerSuppliedToQuestionRequest = {
     examId: examId,
     questionId: questionId,
-    answerSupplied: optionPicked,
+    answerSupplied: optionPicked.trim(),
   };
 
   fetch(`${siaLicenseBaseUrl}/api/v1/sialicence+/exam/answerSupplyToQuestion`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: token,
     },
     body: JSON.stringify(answerSuppliedToQuestionRequest),
   })
     .then((response) => {
       if (response.ok) {
         return response.json();
+      }
+      if (response.status === 401) {
+        throw new Error(data.data);
       } else {
         if (response.status === 400) throw new Error("Option already chosen");
       }
     })
-    .then((data) => {
-      console.log(data);
-    })
     .catch((error) => {
-      console.log(error);
+      if (error instanceof TypeError) {
+        toast("Connection failed", 4000);
+      } else if (error.message) {
+        {
+          toast(error.message, 4000);
+        }
+      } else {
+        {
+          toast("Something went wrong");
+        }
+      }
     });
 };

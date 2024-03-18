@@ -365,11 +365,10 @@ textarea, input, select {
 .button {
   display: inline-block;
   font-size: 1.3rem;
-  text-transform: uppercase;
   padding: 20px 40px;
   border-radius: 5px;
   letter-spacing: 1px;
-  font-weight: 800;
+  font-weight: 500;
   border: none;
   cursor: pointer; }
   .button--small {
@@ -2054,8 +2053,8 @@ body.panel-closing .page, body.panel-closing .bottom-toolbar {
   .login__title {
     width: 100%;
     text-align: center;
-    font-weight: 800;
-    font-size: 2rem;
+    font-weight: 500;
+    font-size: 1.5rem;
     margin-bottom: 60px;
     padding: 0px; }
   .login__text {
@@ -2074,10 +2073,9 @@ body.panel-closing .page, body.panel-closing .bottom-toolbar {
     width: 100%;
     display: block;
     padding-bottom: 10px;
-    text-transform: uppercase;
     font-size: 1.1rem;
     letter-spacing: 1px;
-    font-weight: 900; }
+    font-weight: 400; }
   .login-form label.error {
     color: #d6536c;
     padding: 10px 0 0 5px;
@@ -2097,7 +2095,7 @@ body.panel-closing .page, body.panel-closing .bottom-toolbar {
     width: 100%;
     text-align: center; }
     .login-form__forgot-pass a {
-      font-weight: 800; }
+      font-weight: 400; }
   .login-form__bottom {
     width: 100%;
     text-align: center;

@@ -15,34 +15,32 @@ const sendLoginRequestToBackend = () => {
   })
     .then((response) => {
       if (response.ok) {
-        console.log("I'm ok");
         return response.json();
       } else if (response.status === 400) {
         return response.json();
       } else {
-        throw new Error("Network Failed");
+        throw new Error("Something went wrong");
       }
     })
     .then((data) => {
-      console.log("I'm the data : ", data);
       if (data && data.status == 400) {
         throw new Error(data.data);
       } else if (data && data.data) {
         jwtToken = data.data;
-        console.log("i'm the dat in data " + jwtToken);
         userRole(jwtToken, loginRequest);
       }
     })
 
     .catch((error) => {
-      console.log("I'm the error  ", error);
-      if (error.message) {
+      if (error instanceof TypeError) {
+        toast("Connection failed", 4000);
+      } else if (error.message) {
         {
           toast(error.message, 4000);
         }
       } else {
         {
-          toast("Network Failed");
+          toast("Invalid credentials");
         }
       }
     });
@@ -70,36 +68,41 @@ const userRole = (jwtToken, loginRequest) => {
 
   const userRoles = payload.roles;
 
+  let userType;
+
   if (userRoles[0] === "CENTER") {
     //setCookie('siaLicence+Token', jwtToken)
     sessionStorage.setItem("siaLicense+Token", JSON.stringify(jwtToken));
-    sessionStorage.setItem("centerEmailAddress", loginRequest.emailAddress);
+    sessionStorage.setItem(
+      "centerEmailAddress",
+      JSON.stringify(loginRequest.emailAddress)
+    );
 
-    window.location.href = "index.html";
-    // sendOtPForVerification(fullName);
+    userType = "center";
+    sessionStorage.setItem("userType", userType);
+
+    window.location.href = "/06. SIA License+/index-landing.html";
   } else {
     if (userRoles[0] === "APPLICANT") {
-      console.log("I'm  the applicant ");
-
       // setCookie('siaLicence+Token', jwtToken)
 
       sessionStorage.setItem("siaLicense+Token", JSON.stringify(jwtToken));
       sessionStorage.setItem(
         "applicantEmailAddress",
-        loginRequest.emailAddress
+        JSON.stringify(loginRequest.emailAddress)
       );
-
-      const userType = "applicant";
-
+      userType = "applicant";
       sessionStorage.setItem("userType", userType);
-
       window.location.href = "/06. SIA License+/index-landing.html";
-      //    ?applicant=${encodeURIComponent(userType)}`;
     } else {
       // setCookie('siaLicence+Token', jwtToken)
       sessionStorage.setItem("siaLicense+Token", JSON.stringify(jwtToken));
-      sessionStorage.setItem("adminEmailAddress", loginRequest.emailAddress);
-      window.location.href = "blog.html";
+      sessionStorage.setItem(
+        "adminEmailAddress",
+        JSON.stringify(loginRequest.emailAddress)
+      );
+      window.location.href =
+        "/06. SIA License+/admin/admin/html/sia-dashboard.html";
     }
   }
 };
@@ -108,7 +111,5 @@ const signInBtn = document.getElementById("submitId");
 
 signInBtn.addEventListener("click", (event) => {
   event.preventDefault();
-
-  console.log("Yes I've been clicked");
   sendLoginRequestToBackend();
 });
